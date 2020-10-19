@@ -58,12 +58,23 @@
         }];
         _textField = [[LimitTextfield alloc] initWithFrame:frame];
         _textField.delegate = self;
-        _textField.placeholder = args[@"hintText"];
-        _textField.font = [UIFont systemFontOfSize:[args[@"fontSize"] intValue]];
-        _textField.layer.borderColor = [[self colorWithHexString:args[@"borderColor"]] CGColor];
-        _textField.layer.borderWidth = [args[@"borderWidth"] floatValue];
+        if (![args[@"hintText"] isKindOfClass:[NSNull class]]) {
+            _textField.placeholder = args[@"hintText"];
+        }
+        if (![args[@"fontSize"] isKindOfClass:[NSNull class]]) {
+            _textField.font = [UIFont systemFontOfSize:[args[@"fontSize"] intValue]];
+        }
+        if (![args[@"borderColor"] isKindOfClass:[NSNull class]]) {
+            _textField.layer.borderColor = [[self colorWithHexString:args[@"borderColor"]] CGColor];
+        }
+        if (![args[@"borderWidth"] isKindOfClass:[NSNull class]]) {
+            _textField.layer.borderWidth = [args[@"borderWidth"] floatValue];
+        }
+        if (![args[@"maxLength"] isKindOfClass:[NSNull class]]) {
+            _maxCount = [args[@"maxLength"] intValue];
+        }
         [_textField addTarget:self action:@selector(TextFieldDidChanged:) forControlEvents:UIControlEventEditingChanged];
-        _maxCount = [args[@"maxLength"] intValue];
+        
         
     }
     return self;
@@ -121,16 +132,19 @@
 }
 
 - (void)TextFieldDidChanged:(UITextField *)textField {
-    if (textField.text.length > _maxCount) {
-        UITextRange *markedRange = [textField markedTextRange];
-        if (markedRange) {
-            return;
+    if (_maxCount > 0) {
+        if (textField.text.length > _maxCount) {
+            UITextRange *markedRange = [textField markedTextRange];
+            if (markedRange) {
+                return;
+            }
+            //Emoji占2个字符，如果是超出了半个Emoji，用15位置来截取会出现Emoji截为2半
+            //超出最大长度的那个字符序列(Emoji算一个字符序列)的range
+            NSRange range = [textField.text rangeOfComposedCharacterSequenceAtIndex:_maxCount];
+            textField.text = [textField.text substringToIndex:range.location];
         }
-        //Emoji占2个字符，如果是超出了半个Emoji，用15位置来截取会出现Emoji截为2半
-        //超出最大长度的那个字符序列(Emoji算一个字符序列)的range
-        NSRange range = [textField.text rangeOfComposedCharacterSequenceAtIndex:_maxCount];
-        textField.text = [textField.text substringToIndex:range.location];
     }
+    
     [_channel invokeMethod:@"onChanged" arguments:@{@"text" : textField.text}];
 }
 

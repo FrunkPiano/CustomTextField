@@ -30,17 +30,17 @@ class _MyAppState extends State<MyApp> {
           width: 100,
           height: 30,
           child: LimitTextField(
-            maxLength: 10,
-            onTextFieldCreated: (TextFieldController textFieldController) {
-              _controller = textFieldController;
-            },
-            hintText: '请输入手机号',
-            borderColor: '#000000',
-            borderWidth: 2,
-            fontSize: 20,
-            onChanged: (String text){
-              print(text);
-            },
+            // maxLength: 10,
+            // onTextFieldCreated: (TextFieldController textFieldController) {
+            //   _controller = textFieldController;
+            // },
+            // hintText: '请输入手机号',
+            // borderColor: '#000000',
+            // borderWidth: 2,
+            // fontSize: 20,
+            // onChanged: (String text){
+            //   print(text);
+            // },
           ),
         ),
         floatingActionButton: FloatingActionButton(
