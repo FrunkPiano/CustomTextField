@@ -11,7 +11,7 @@ typedef void TextFieldCreatedCallback(TextFieldController controller);
 typedef void TextChangedCallback(String text);
 
 class LimitTextField extends StatefulWidget {
-  const LimitTextField({
+  LimitTextField({
     Key key,
     this.onTextFieldCreated,
     this.maxLength,
@@ -39,6 +39,7 @@ class LimitTextField extends StatefulWidget {
 
   final bool debuggingEnabled;
   final bool gestureNavigationEnabled;
+  String currentText = '';
   static set platform(TextFieldPlatform platform) {
     _platform = platform;
   }
@@ -131,6 +132,7 @@ class _PlatformCallbacksHandler implements TextFieldPlatformCallbacksHandler {
 
   @override
   void onChanged(String text) {
+    _widget.currentText = text;
     if(_widget.onChanged != null) {
       _widget.onChanged(text);
     }
@@ -155,11 +157,16 @@ class TextFieldController {
 
   LimitTextField _widget;
 
+  String get currentText {
+    return _widget.currentText;
+  }
+
   Future<String> text() {
     return _textFieldPlatformController.text();
   }
 
   Future<void> setText(String text) {
+    _widget.currentText = text;
     return _textFieldPlatformController.setText(text);
   }
 
