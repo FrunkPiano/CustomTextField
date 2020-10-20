@@ -31,6 +31,11 @@ class MethodChannelTextFieldPlatform implements TextFieldPlatformController {
   }
 
   @override
+  Future<void> setText(String text) {
+    return _channel.invokeMethod<void>('setText', {'text': text});
+  }
+
+  @override
   Future<void> resignFirstResponder() {
     return _channel.invokeMethod<void>('resignFirstResponder');
   }

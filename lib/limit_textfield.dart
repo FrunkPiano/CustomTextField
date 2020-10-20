@@ -159,6 +159,10 @@ class TextFieldController {
     return _textFieldPlatformController.text();
   }
 
+  Future<void> setText(String text) {
+    return _textFieldPlatformController.setText(text);
+  }
+
   Future<void> resignFirstResponder() {
     return _textFieldPlatformController.resignFirstResponder();
   }

@@ -89,6 +89,8 @@
       [self onCurrentText:call result:result];
    } else if([[call method] isEqualToString:@"resignFirstResponder"]) {
        [self onResignFirstResponder:call result:result];
+   } else if([[call method] isEqualToString:@"setText"]) {
+       [self onSetText:call result:result];
    } else {
     result(FlutterMethodNotImplemented);
   }
@@ -101,6 +103,11 @@
 
 - (void)onResignFirstResponder:(FlutterMethodCall*)call result:(FlutterResult)result {
     [_textField resignFirstResponder];
+    result(nil);
+}
+
+- (void)onSetText:(FlutterMethodCall*)call result:(FlutterResult)result {
+    _textField.text = call.arguments[@"text"];
     result(nil);
 }
 

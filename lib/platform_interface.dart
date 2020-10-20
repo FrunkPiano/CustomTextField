@@ -18,6 +18,10 @@ abstract class TextFieldPlatformController {
         "TextField currentText is not implemented on the current platform");
   }
 
+  Future<void> setText(String text) {
+    throw UnimplementedError(
+        "TextField currentText is not implemented on the current platform");
+  }
   Future<void> resignFirstResponder() {
     throw UnimplementedError(
         "TextField resignFirstResponder is not implemented on the current platform");
