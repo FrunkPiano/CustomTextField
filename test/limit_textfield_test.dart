@@ -1,6 +1,5 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:limit_textfield/limit_textfield.dart';
 
 void main() {
   const MethodChannel channel = MethodChannel('limit_textfield');

@@ -1,7 +1,8 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:limit_textfield/limit_textfield.dart';
+import 'package:limit_textfield/custom_text_field.dart';
+import 'package:limit_textfield/custom_text_controller.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -11,7 +12,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
-  TextFieldController _controller;
+  CustomTextFieldController _controller = CustomTextFieldController();
 
   @override
   void initState() {
@@ -29,15 +30,11 @@ class _MyAppState extends State<MyApp> {
         body: Container(
           width: 100,
           height: 30,
-          child: LimitTextField(
+          child: CustomTextField(
             maxLength: 10,
-            onTextFieldCreated: (TextFieldController textFieldController) {
-              _controller = textFieldController;
-            },
-            hintText: '请输入手机号',
+            controller: _controller,
             borderColor: '#000000',
             borderWidth: 2,
-            fontSize: 20,
             onChanged: (String text){
               print(text);
             },
@@ -45,7 +42,7 @@ class _MyAppState extends State<MyApp> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            _controller.setText('fuck');
+            _controller.text = 'fuck';
           },
           tooltip: 'Increment',
           child: Icon(Icons.add),
